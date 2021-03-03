@@ -23,7 +23,7 @@ vars["Operation"] = Operation;
 
 vars["Language"] = "en"; // page languge he- hebrew , en - english , ru , ar
 vars["CoinID"] = "1"; // billing coin , 1- NIS , 2- USD other , article :  http://kb.cardcom.co.il/article/AA-00247/0
-vars["SumToBill"] = "20"; // Sum To Bill
+vars["SumToBill"] = "79.4"; // Sum To Bill
 vars["ProductName"] = "Test Product"; // Product Name , will how if no invoice will be created.
 
 vars["SuccessRedirectUrl"] =
@@ -34,8 +34,8 @@ vars["ErrorRedirectUrl"] =
 // Other Optional vars :
 
 vars["CancelType"] = "2"; // show Cancel button on start ,
-vars["CancelUrl"] ="http://www.google.com/";
-vars["IndicatorUrl"] = "http://www.yoursite.com/NotifyURL"; // Indicator Url \ Notify URL . after use -  http://kb.cardcom.co.il/article/AA-00240/0
+vars["CancelUrl"] ="https://payment-cardcom.herokuapp.com/";
+//vars["IndicatorUrl"] = "http://www.yoursite.com/NotifyURL"; // Indicator Url \ Notify URL . after use -  http://kb.cardcom.co.il/article/AA-00240/0
 
 vars["ReturnValue"] = "1234"; // Optional , ,recommended , value that will be return and save in CardCom system
 vars["MaxNumOfPayments"] = "12"; // max num of payments to show  to the user
@@ -65,14 +65,14 @@ app.get("/payment", async (req, res) => {
     // products info
 
     const arr = [
-          {
+      {
             Description: "Apples",
-            Price: "12",
+            Price: "12.25",
             Quantity: "2",
           },
           {
             Description: "Orange",
-            Price: "7",
+            Price: "7.3",
             Quantity: "3",
           },
           {
@@ -87,7 +87,7 @@ app.get("/payment", async (req, res) => {
           },
           {
             Description: "Guava",
-            Price: "46",
+            Price: "4",
             Quantity: "3",
           },
         ];
