@@ -4,7 +4,7 @@ const querystring = require("querystring");
 const axios = require("axios");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const TerminalNumber = 1000; // Company terminal
 const UserName = "barak9611"; // API User
