@@ -65,17 +65,32 @@ app.get("/payment", async (req, res) => {
     // products info
 
     const arr = [
-      {
-        Description: "itme 1",
-        Price: "5",
-        Quantity: "2",
-      },
-      {
-        Description: "itme 2",
-        Price: "10",
-        Quantity: "1",
-      },
-    ];
+          {
+            Description: "Apples",
+            Price: "12",
+            Quantity: "2",
+          },
+          {
+            Description: "Orange",
+            Price: "7",
+            Quantity: "3",
+          },
+          {
+            Description: "Tomato",
+            Price: "3",
+            Quantity: "5",
+          },
+          {
+            Description: "Cucumber",
+            Price: "6",
+            Quantity: "1",
+          },
+          {
+            Description: "Guava",
+            Price: "46",
+            Quantity: "3",
+          },
+        ];
     arr.forEach((data, index) => {
       vars[`InvoiceLines${index + 1}.Description`] = data.Description;
       vars[`InvoiceLines${index + 1}.Price`] = data.Price;
