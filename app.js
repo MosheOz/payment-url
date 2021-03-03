@@ -48,7 +48,11 @@ app.use(express.json());
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-app.get("/", async (req, res) => {
+app.get('/', (req, res) => {
+  res.render("index");
+})
+
+app.get("/payment", async (req, res) => {
   if (CreateInvoice) {
     // article for invoice vars:  http://kb.cardcom.co.il/article/AA-00244/0
     vars["IsCreateInvoice"] = "true";
