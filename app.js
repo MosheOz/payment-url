@@ -20,11 +20,13 @@ app.use(express.json());
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-app.use("/payment-token", require('./routes').token);
+
 
 app.get("/", (req, res) => {
   res.render("index");
 });
+
+app.use("/payment-token", require('./routes').token);
 
 // regular payment - cc charge
 app.post("/payment", async (req, res) => {
