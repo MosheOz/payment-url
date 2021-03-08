@@ -3,7 +3,7 @@ const cors = require("cors");
 const querystring = require("querystring");
 const axios = require("axios");
 
-const { defineVarsArr, defineVarInvoice } = require("./vars.helper");
+//const { defineVarsArr, defineVarInvoice } = require("./vars.helper");
 const app = express();
 const PORT = 3000;
 
@@ -30,9 +30,9 @@ app.use("/payment-token", require('./routes').token);
 
 // regular payment - cc charge
 app.post("/payment", async (req, res) => {
-  vars = defineVarsArr();
+  //vars = defineVarsArr();
   if (CreateInvoice) {
-    vars = defineVarInvoice();
+    //vars = defineVarInvoice();
   }
 
   const str = querystring.encode(vars);
