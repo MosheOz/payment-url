@@ -51,7 +51,7 @@
     <script>
       function getDealDetails() {
         $.ajax({
-          url: "http://localhost:3000/NotifyUrl",
+          url: "https://payment-cardcom.herokuapp.com/NotifyUrl",
           method: "GET",
           success: function (result) {
             $(".card").append(`
@@ -76,7 +76,7 @@
       }
 
       function goHome() {
-        window.top.location.href="http://localhost:3000/";
+        window.top.location.href="https://payment-cardcom.herokuapp.com/";
       }
     </script>
   </body>
