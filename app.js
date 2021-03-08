@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const querystring = require("querystring");
 const axios = require("axios");
+const routes = require('./routes')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -48,9 +49,7 @@ app.use(express.json());
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-app.get('/', (req, res) => {
-  res.render("index");
-})
+app.use('/', require('./routes/init'))
 
 app.get("/payment", async (req, res) => {
   if (CreateInvoice) {
