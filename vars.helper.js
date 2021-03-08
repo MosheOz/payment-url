@@ -65,7 +65,7 @@ module.exports = {
     vars["SumToBill"] = "79.4"; // Sum To Bill
     vars["ProductName"] = "Your Cart Details"; // Product Name , will how if no invoice will be created.
 
-    vars["SuccessRedirectUrl"] = "http://localhost:3000/success-page"; // Success Page
+    vars["SuccessRedirectUrl"] = "https://payment-cardcom.herokuapp.com/success-page"; // Success Page
     vars["ErrorRedirectUrl"] =
       "https://secure.cardcom.solutions/DealWasUnSuccessful.aspx?customVar=1234"; // Error Page
 
@@ -73,7 +73,7 @@ module.exports = {
 
     vars["CancelType"] = "2"; // show Cancel button on start ,
     vars["CancelUrl"] = "https://payment-cardcom.herokuapp.com/";
-    vars["IndicatorUrl"] = "http://localhost:3000/NotifyURL"; // Indicator Url \ Notify URL . after use -  http://kb.cardcom.co.il/article/AA-00240/0
+    vars["IndicatorUrl"] = "https://payment-cardcom.herokuapp.com/NotifyURL"; // Indicator Url \ Notify URL . after use -  http://kb.cardcom.co.il/article/AA-00240/0
 
     vars["ReturnValue"] = "1234"; // Optional , ,recommended , value that will be return and save in CardCom system
     vars["MaxNumOfPayments"] = "12"; // max num of payments to show  to the user
