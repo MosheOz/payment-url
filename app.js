@@ -49,7 +49,7 @@ app.use(express.json());
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-app.use('/', require('./routes/init'))
+app.use('/', require('./routes').init)
 
 app.get("/payment", async (req, res) => {
   if (CreateInvoice) {
