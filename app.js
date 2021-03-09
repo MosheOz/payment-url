@@ -54,8 +54,10 @@ app.use('/', require('./routes').init)
 
 app.get("/payment", async (req, res) => {
   vars = defineVarsArr();
+  console.log(vars)
   if (CreateInvoice) {
     vars = defineVarInvoice();
+    console.log(vars)
   }
 //   if (CreateInvoice) {
 //     // article for invoice vars:  http://kb.cardcom.co.il/article/AA-00244/0
