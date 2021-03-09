@@ -2,7 +2,7 @@ const TerminalNumber = 1000; // Company terminal
 const UserName = "barak9611"; // API User
 const CreateInvoice = true; // to Create Invoice (Need permissions to create invoice )
 const Operation = 4;
-const vars = [];
+let vars = [];
 
 module.exports = {
   defineVarInvoice: () => {
