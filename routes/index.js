@@ -1,5 +1,7 @@
 const init = require('./init');
+const payment = require('./payment');
 
 module.exports = {
-  init: init
+  init: init,
+  payment: payment
 }
