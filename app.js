@@ -51,58 +51,58 @@ app.set("views", "./views");
 app.set("view engine", "ejs");
 
 app.get("/payment", async (req, res) => {
-  vars = defineVarsArr();
-  console.log(vars)
-  if (CreateInvoice) {
-    vars = defineVarInvoice();
-    console.log(vars)
-  }
+  //vars = defineVarsArr();
+//   console.log(vars)
 //   if (CreateInvoice) {
-//     // article for invoice vars:  http://kb.cardcom.co.il/article/AA-00244/0
-//     vars["IsCreateInvoice"] = "true";
-//     // customer info :
-//     vars["InvoiceHead.CustName"] = "Moshe"; // customer name
-//     vars["InvoiceHead.SendByEmail"] = "true"; // will the invoice be send by email to the customer
-//     vars["InvoiceHead.Language"] = "he"; // he or en only
-//     vars["InvoiceHead.Email"] = "test@gmail.com";
-
-//     // products info
-
-//     const arr = [
-//       {
-//             Description: "Apples",
-//             Price: "12.25",
-//             Quantity: "2",
-//           },
-//           {
-//             Description: "Orange",
-//             Price: "7.3",
-//             Quantity: "3",
-//           },
-//           {
-//             Description: "Tomato",
-//             Price: "3",
-//             Quantity: "5",
-//           },
-//           {
-//             Description: "Cucumber",
-//             Price: "6",
-//             Quantity: "1",
-//           },
-//           {
-//             Description: "Guava",
-//             Price: "4",
-//             Quantity: "3",
-//           },
-//         ];
-//     arr.forEach((data, index) => {
-//       vars[`InvoiceLines${index + 1}.Description`] = data.Description;
-//       vars[`InvoiceLines${index + 1}.Price`] = data.Price;
-//       vars[`InvoiceLines${index + 1}.Quantity`] = data.Quantity;
-//       console.log(data, index + 1);
-//     });
-//     // ********   Sum of all Lines Price*Quantity  must be equals to SumToBill ***** //
+//     vars = defineVarInvoice();
+//     console.log(vars)
 //   }
+  if (CreateInvoice) {
+    // article for invoice vars:  http://kb.cardcom.co.il/article/AA-00244/0
+    vars["IsCreateInvoice"] = "true";
+    // customer info :
+    vars["InvoiceHead.CustName"] = "Moshe"; // customer name
+    vars["InvoiceHead.SendByEmail"] = "true"; // will the invoice be send by email to the customer
+    vars["InvoiceHead.Language"] = "he"; // he or en only
+    vars["InvoiceHead.Email"] = "test@gmail.com";
+
+    // products info
+
+    const arr = [
+      {
+            Description: "Apples",
+            Price: "12.25",
+            Quantity: "2",
+          },
+          {
+            Description: "Orange",
+            Price: "7.3",
+            Quantity: "3",
+          },
+          {
+            Description: "Tomato",
+            Price: "3",
+            Quantity: "5",
+          },
+          {
+            Description: "Cucumber",
+            Price: "6",
+            Quantity: "1",
+          },
+          {
+            Description: "Guava",
+            Price: "4",
+            Quantity: "3",
+          },
+        ];
+    arr.forEach((data, index) => {
+      vars[`InvoiceLines${index + 1}.Description`] = data.Description;
+      vars[`InvoiceLines${index + 1}.Price`] = data.Price;
+      vars[`InvoiceLines${index + 1}.Quantity`] = data.Quantity;
+      console.log(data, index + 1);
+    });
+    // ********   Sum of all Lines Price*Quantity  must be equals to SumToBill ***** //
+  }
 
   const str = querystring.encode(vars);
   console.log(vars);
