@@ -50,7 +50,7 @@ app.use(express.json());
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-app.use('/', require('./routes').init);
-app.use("/payment", require('./routes').payment);
+ app.use('/', require('./routes').init);
+// app.use("/payment", require('./routes').payment);
 
 app.listen(PORT, console.log("App is running on ", PORT));
