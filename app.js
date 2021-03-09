@@ -3,7 +3,7 @@ const cors = require("cors");
 const querystring = require("querystring");
 const axios = require("axios");
 const routes = require('./routes')
-const { defineVarsArr, defineVarInvoice } = require("./vars.helper");
+// const { defineVarsArr, defineVarInvoice } = require("./vars.helper");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -50,8 +50,7 @@ app.use(express.json());
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
+app.use('/', require('./routes').init);
 app.use("/payment", require('./routes').payment);
-
-app.use('/', require('./routes').init)
 
 app.listen(PORT, console.log("App is running on ", PORT));
