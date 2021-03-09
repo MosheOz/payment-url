@@ -50,8 +50,6 @@ app.use(express.json());
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-app.use('/', require('./routes').init)
-
 app.get("/payment", async (req, res) => {
   vars = defineVarsArr();
   console.log(vars)
@@ -136,5 +134,7 @@ app.get("/payment", async (req, res) => {
     res.status(500).json({ error: err });
   }
 });
+
+app.use('/', require('./routes').init)
 
 app.listen(PORT, console.log("App is running on ", PORT));
