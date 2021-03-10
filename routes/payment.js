@@ -1,49 +1,46 @@
-const express = require("express");
+const router = require("express").Router();
+
 const querystring = require("querystring");
 const axios = require("axios");
 
-const router = express.Router();
-
 const TerminalNumber = 1000; // Company terminal
 const UserName = "barak9611"; // API User
+const IsIframe = true;
 const CreateInvoice = true; // to Create Invoice (Need permissions to create invoice )
-const IsIframe = true; // Iframe or Redirect
-const Operation = 4;
+const Operation = 3;
+let LOW_PROFILE_CODE = "";
 
 // Create Post Information
 // Account vars
-const vars = [];
-vars["TerminalNumber"] = TerminalNumber;
-vars["UserName"] = UserName;
-vars["APILevel"] = "10"; // req
-vars["codepage"] = "65001"; // unicode
-vars["Operation"] = Operation;
+let vars = [];
 
-vars["Language"] = "en"; // page languge he- hebrew , en - english , ru , ar
-vars["CoinID"] = "1"; // billing coin , 1- NIS , 2- USD other , article :  http://kb.cardcom.co.il/article/AA-00247/0
-vars["SumToBill"] = "79.4"; // Sum To Bill
-vars["ProductName"] = "Test Product"; // Product Name , will how if no invoice will be created.
+router.get("/", async (req, res) => {
+  vars["TerminalNumber"] = TerminalNumber;
+  vars["UserName"] = UserName;
+  vars["APILevel"] = "10"; // req
+  vars["codepage"] = "65001"; // unicode
+  vars["Operation"] = Operation;
+  vars["Language"] = "en"; // page languge he- hebrew , en - english , ru , ar
+  vars["CoinID"] = "1"; // billing coin , 1- NIS , 2- USD other , article :  http://kb.cardcom.co.il/article/AA-00247/0
 
-vars["SuccessRedirectUrl"] =
-  "https://secure.cardcom.solutions/DealWasSuccessful.aspx"; // Success Page
-vars["ErrorRedirectUrl"] =
-  "https://secure.cardcom.solutions/DealWasUnSuccessful.aspx?customVar=1234"; // Error Page
+  // Other Optional vars :
 
-// Other Optional vars :
+  vars["SumToBill"] = "79.4"; // Sum To Bill
+  vars["ProductName"] = "Your Cart Details"; // Product Name , will how if no invoice will be created.
 
-vars["CancelType"] = "2"; // show Cancel button on start ,
-vars["CancelUrl"] ="https://payment-cardcom.herokuapp.com/";
-//vars["IndicatorUrl"] = "http://www.yoursite.com/NotifyURL"; // Indicator Url \ Notify URL . after use -  http://kb.cardcom.co.il/article/AA-00240/0
+  vars["SuccessRedirectUrl"] = `${process.env.BASE_URL}/success-page`; // Success Page
+  vars["ErrorRedirectUrl"] =
+    "https://secure.cardcom.solutions/DealWasUnSuccessful.aspx?customVar=1234"; // Error Page
+  vars["CancelType"] = "2"; // show Cancel button on start ,
+  vars["CancelUrl"] = `${process.env.BASE_URL}`;
+  vars["IndicatorUrl"] = `${process.env.BASE_URL}/NotifyURL`; // Indicator Url \ Notify URL . after use -  http://kb.cardcom.co.il/article/AA-00240/0
 
-vars["ReturnValue"] = "1234"; // Optional , ,recommended , value that will be return and save in CardCom system
-vars["MaxNumOfPayments"] = "12"; // max num of payments to show  to the user
+  vars["ReturnValue"] = "1234"; // Optional , ,recommended , value that will be return and save in CardCom system
+  vars["MaxNumOfPayments"] = "12"; // max num of payments to show  to the user
 
-vars["ShowInvoiceHead"] = "true"; //  if show & edit Invoice Details on the page.
-vars["InvoiceHeadOperation"] = "1";
-
-router.get((req, res) => {
-  if (CreateInvoice) {
-    // article for invoice vars:  http://kb.cardcom.co.il/article/AA-00244/0
+  if (CreateInvoice && Operation !== 3) {
+    vars["ShowInvoiceHead"] = "true"; //  if show & edit Invoice Details on the page.
+    vars["InvoiceHeadOperation"] = "1";
     vars["IsCreateInvoice"] = "true";
     // customer info :
     vars["InvoiceHead.CustName"] = "Moshe"; // customer name
@@ -55,42 +52,39 @@ router.get((req, res) => {
 
     const arr = [
       {
-            Description: "Apples",
-            Price: "12.25",
-            Quantity: "2",
-          },
-          {
-            Description: "Orange",
-            Price: "7.3",
-            Quantity: "3",
-          },
-          {
-            Description: "Tomato",
-            Price: "3",
-            Quantity: "5",
-          },
-          {
-            Description: "Cucumber",
-            Price: "6",
-            Quantity: "1",
-          },
-          {
-            Description: "Guava",
-            Price: "4",
-            Quantity: "3",
-          },
-        ];
+        Description: "Apples",
+        Price: "12.25",
+        Quantity: "2",
+      },
+      {
+        Description: "Orange",
+        Price: "7.3",
+        Quantity: "3",
+      },
+      {
+        Description: "Tomato",
+        Price: "3",
+        Quantity: "5",
+      },
+      {
+        Description: "Cucumber",
+        Price: "6",
+        Quantity: "1",
+      },
+      {
+        Description: "Guava",
+        Price: "4",
+        Quantity: "3",
+      },
+    ];
     arr.forEach((data, index) => {
       vars[`InvoiceLines${index + 1}.Description`] = data.Description;
       vars[`InvoiceLines${index + 1}.Price`] = data.Price;
       vars[`InvoiceLines${index + 1}.Quantity`] = data.Quantity;
-      console.log(data, index + 1);
     });
-    // ********   Sum of all Lines Price*Quantity  must be equals to SumToBill ***** //
   }
 
   const str = querystring.encode(vars);
-  console.log(vars);
 
   try {
     const response = await axios.post(
@@ -99,11 +93,11 @@ router.get((req, res) => {
     );
 
     const obj = querystring.decode(response.data);
-
+    console.log(obj);
     if (obj.ResponseCode == "0") {
+      LOW_PROFILE_CODE = obj.LowProfileCode; // save low profile code from response.
+
       if (IsIframe) {
-        console.log(obj.url);
-        // res.redirect(obj.url);
         res.render("iframe", { data: obj.url });
         return;
       } // redirect
@@ -121,4 +115,3 @@ router.get((req, res) => {
 });
 
 module.exports = router;
-
