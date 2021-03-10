@@ -3,12 +3,12 @@ const router = require("express").Router();
 const querystring = require("querystring");
 const axios = require("axios");
 
-router.get('/:terNum/:userName/:SuspendedDealID/:userpassword', async (req, res) => {
+router.get('/:terNum?/:userName?/:SuspendedDealID?/:userpassword?', async (req, res) => {
     let vars = [];
     const TerminalNumber = req.params.terNum || 1000;
-    const UserName = req.params.userName || 'barak9611';
+    const UserName = req.params.userName || process.env.USER_NAME;
+    const userpassword = req.params.userpassword || process.env.PASSWORD;
     const SuspendedDealID = req.params.SuspendedDealID || '83678740';
-    const userpassword = req.params.userpassword || '83678740';
     const str = querystring.encode(vars);
 
     try {

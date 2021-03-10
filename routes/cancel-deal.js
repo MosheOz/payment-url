@@ -8,8 +8,8 @@ const url = "https://secure.cardcom.co.il/Interface/CancelDeal.aspx";
 router.get("/", async (req, res) => {
   let vars = [];
   const TerminalNumber = 1000;
-  const userName = "barak9611";
-  const userpassword = "c1234567!";
+  const userName = process.env.USER_NAME;
+  const userpassword = process.env.PASSWORD;
   const internalDealNumber = "83678740";
 
   //optinal

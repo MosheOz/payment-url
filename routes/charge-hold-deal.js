@@ -6,7 +6,7 @@ const axios = require("axios");
 router.get('/', async (req, res) => {
     let vars = [];
     vars['TerminalNumber'] = req.body.termainalNumber || 1000;
-    vars['UserName'] = req.body.userName || 'barak9611';
+    vars['UserName'] = req.body.userName || process.env.USER_NAME;
     vars['SuspendedDealID'] = req.body.suspendedDealID || '83678740';
     const str = querystring.encode(vars);
 

@@ -1,5 +1,5 @@
 const TerminalNumber = 1000; // Company terminal
-const UserName = "barak9611"; // API User
+const UserName = process.env.USER_NAME; // API User
 const CreateInvoice = true; // to Create Invoice (Need permissions to create invoice )
 const Operation = 4;
 const vars = [];

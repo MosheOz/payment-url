@@ -1,5 +1,5 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
 
 const express = require("express");
@@ -46,7 +46,7 @@ app.get("/success-page", (req, res) => {
 app.get("/NotifyURL", async (req, res) => {
   try {
     const isDeal = await getDealIndication();
-    console.log(isDeal)
+    console.log(isDeal);
     if (isDeal.ResponseCode == 0 && isDeal.lowprofilecode) {
       res.json(isDeal);
     }
@@ -60,7 +60,7 @@ async function getDealIndication() {
   const url = `https://secure.cardcom.solutions/Interface/BillGoldGetLowProfileIndicator.aspx?`;
   let config = [];
   config["terminalnumber"] = 1000;
-  config["username"] = "barak9611";
+  config["username"] = process.env.USER_NAME;
   config["lowprofilecode"] = "2e4346ba-e521-4d87-95cd-cf160c39dbc9";
   const str = querystring.encode(config);
   const response = await axios.get(url + str);

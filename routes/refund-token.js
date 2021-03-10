@@ -11,9 +11,9 @@ const axios = require("axios");
 router.get("/", async (req, res) => {
   let vars = [];
   vars["TerminalNumber"] = "1000";
-  vars["UserName"] = "barak9611";
+  vars["UserName"] = process.env.USER_NAME;
   vars["TokenToCharge.RefundInsteadOfCharge"] = true; //// =====> for refund!!
-  vars["TokenToCharge.UserPassword"] = 'test'; //// =====> for refund!!
+  vars["TokenToCharge.UserPassword"] = process.env.PASSWORD; //// =====> for refund!!
   vars["TokenToCharge.APILevel"] = "9";
   vars["TokenToCharge.Token"] = "4cf8e168-261e-4613-8d20-000332986b24";
   vars["TokenToCharge.Salt"] = "12421"; //User ID or a Cost var.
