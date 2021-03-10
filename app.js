@@ -30,6 +30,9 @@ app.use("/cancel-hold-deal", require("./routes").chargeHoldDeal);
 // refund token
 app.use("/refund-token", require("./routes").refundToken);
 
+// refund cc charge
+app.use("/cancel-deal", require("./routes").cancelDeal);
+
 app.get("/", (req, res) => {
   res.render("index");
 });
