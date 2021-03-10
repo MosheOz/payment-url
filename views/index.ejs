@@ -67,11 +67,11 @@
       <tr>
         <td>Guava</td>
         <td>3 kg</td>
-        <td>4 NIS</td>
+        <td>46 NIS</td>
       </tr>
     </table>
 
-    <div id="total">Total : 79.4 NIS</div>
+    <div id="total">Total : 79.40 NIS</div>
 
     <button onclick="checkout()">Check Out</button>
 
@@ -118,7 +118,9 @@
       };
       function checkout() {
         $.ajax({
-          url: "https://payment-cardcom.herokuapp.com/payment",
+          url: "http://localhost:3000/payment",
+          method: "POST",
+          data: JSON.stringify(data),
           success: function (result) {
             document.write(result);
           },
