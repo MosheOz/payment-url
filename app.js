@@ -1,11 +1,11 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
-
 const express = require("express");
 const cors = require("cors");
 const querystring = require("querystring");
 const axios = require("axios");
+const fs = require("fs");
 
 const app = express();
 const PORT = 3000;
@@ -25,10 +25,13 @@ app.use("/payment", require("./routes").payment);
 app.use("/charge-hold-deal", require("./routes").chargeHoldDeal);
 
 // cancel hold deal / refund hold deal
-app.use("/cancel-hold-deal", require("./routes").chargeHoldDeal);
+app.use("/cancel-hold-deal", require("./routes").cancelHoldDeal);
 
 // refund token
 app.use("/refund-token", require("./routes").refundToken);
+
+// refund cc charge
+app.use("/cancel-deal", require("./routes").cancelDeal);
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -36,14 +39,17 @@ app.get("/", (req, res) => {
 
 //success page
 app.get("/success-page", (req, res) => {
+  console.log(req.body);
   res.render("success");
 });
 
 // Indicator URL
-app.get("/NotifyURL", async (req, res) => {
+app.get("/NotifyURL/:lowProfileCode?", async (req, res) => {
   try {
     const isDeal = await getDealIndication();
-    console.log(isDeal)
+    console.log("notify ==> ", isDeal);
+    // check deal details and validate success
+    // TO DO store this data in DB
     if (isDeal.ResponseCode == 0 && isDeal.lowprofilecode) {
       res.json(isDeal);
     }
@@ -53,16 +59,65 @@ app.get("/NotifyURL", async (req, res) => {
   }
 });
 
+app.get('/download', function(req, res){
+  const file = `${__dirname}/test.bin`;
+  res.download(file); // Set disposition and send it.
+});
+
 async function getDealIndication() {
-  const url = `https://secure.cardcom.solutions/Interface/BillGoldGetLowProfileIndicator.aspx?`;
-  let config = [];
-  config["terminalnumber"] = 1000;
-  config["username"] = "barak9611";
-  config["lowprofilecode"] = "2e4346ba-e521-4d87-95cd-cf160c39dbc9";
-  const str = querystring.encode(config);
-  const response = await axios.get(url + str);
-  const obj = querystring.decode(response.data);
-  return obj;
+  try {
+    const data = fs.readFileSync("low-profile-code.txt", "utf8");
+    const url = `https://secure.cardcom.solutions/Interface/BillGoldGetLowProfileIndicator.aspx?`;
+    let config = [];
+    config["terminalnumber"] = process.env.TERMINAL_NUMBER;
+    config["username"] = process.env.USER_NAME;
+    config["lowprofilecode"] = JSON.parse(data).LowProfileCode;
+    const str = querystring.encode(config);
+    const response = await axios.get(url + str);
+    const obj = querystring.decode(response.data);
+    console.log(obj)
+    return obj;
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 app.listen(PORT, console.log("App is running on ", PORT));
+
+const {
+  InstitutionSendPayment,
+  SendPaymentsRecord,
+  MasaVSendPayments,
+} = require("masav");
+
+let masavFile = new MasaVSendPayments();
+let institution = new InstitutionSendPayment(
+  "12345678",
+  "12345",
+  "201005",
+  "201005",
+  "שלום",
+  "001"
+);
+institution.addPaymentRecords([
+  new SendPaymentsRecord(
+    "01",
+    "123",
+    "123456789",
+    "000000018",
+    "שלום",
+    "000001234",
+    12
+  ),
+  new SendPaymentsRecord(
+    "09",
+    "222",
+    "654321",
+    "000000018",
+    "שלום",
+    "000001234",
+    100.12
+  ),
+]);
+masavFile.addInstitution(institution);
+masavFile.saveFile("test.bin");
